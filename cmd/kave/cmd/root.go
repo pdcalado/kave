@@ -7,8 +7,9 @@ import (
 	"path"
 
 	"github.com/BurntSushi/toml"
-	"github.com/pdcalado/kave/internal/version"
 	"github.com/spf13/cobra"
+
+	"github.com/pdcalado/kave/internal/version"
 )
 
 const (

@@ -7,8 +7,9 @@ import (
 	"testing"
 
 	"github.com/golang/mock/gomock"
-	mocks "github.com/pdcalado/kave/cmd/server/mocks"
 	"github.com/stretchr/testify/assert"
+
+	mocks "github.com/pdcalado/kave/cmd/server/mocks"
 )
 
 type mockResponseWriter struct {
