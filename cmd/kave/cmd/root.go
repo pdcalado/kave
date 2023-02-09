@@ -16,7 +16,6 @@ const (
 	kaveConfigFile         = "config.toml"
 	kaveConfigDir          = ".kave"
 	kaveFlagConfig         = "config"
-	kaveFlagUsername       = "username"
 	kaveFlagUrl            = "url"
 	kaveFlagRouterBasePath = "router-base-path"
 	kaveFlagToken          = "token"
@@ -41,7 +40,6 @@ func Execute() {
 }
 
 type profile struct {
-	Username       string `toml:"username"`
 	Url            string `toml:"url"`
 	RouterBasePath string `toml:"router_base_path"`
 	Auth           struct {
@@ -71,7 +69,6 @@ func init() {
 		}
 	}
 
-	rootCmd.PersistentFlags().StringVar(&prof.Username, kaveFlagUsername, prof.Username, "username for authentication")
 	rootCmd.PersistentFlags().StringVar(&prof.Url, kaveFlagUrl, prof.Url, "url of kave server")
 	rootCmd.PersistentFlags().StringVar(&prof.RouterBasePath, kaveFlagRouterBasePath, prof.RouterBasePath, "base path of server router")
 
@@ -83,7 +80,7 @@ func init() {
 var initCmd = &cobra.Command{
 	Use:   "init",
 	Short: "Initialize kave user profile",
-	Long:  "Specify username and url of kave server in the profile.",
+	Long:  "Specify url of kave server in the profile.",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		formatFailedToInit := "failed to init profile: %w"
 
@@ -113,7 +110,6 @@ var initCmd = &cobra.Command{
 		}
 
 		prof := &profile{
-			Username:       cmd.Flags().Lookup(kaveFlagUsername).Value.String(),
 			Url:            cmd.Flags().Lookup(kaveFlagUrl).Value.String(),
 			RouterBasePath: cmd.Flags().Lookup(kaveFlagRouterBasePath).Value.String(),
 		}
@@ -130,10 +126,6 @@ func loadProfile(path string) (*profile, error) {
 	_, err := toml.DecodeFile(path, prof)
 	if err != nil {
 		return nil, fmt.Errorf("failed to load profile: %w", err)
-	}
-
-	if prof.Username == "" {
-		return nil, fmt.Errorf("%s is empty", kaveFlagUsername)
 	}
 
 	if prof.Url == "" {
