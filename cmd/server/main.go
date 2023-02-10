@@ -103,7 +103,8 @@ func main() {
 		w.Header().Set("Content-Type", "application/json")
 		_, err := w.Write([]byte(`{"status":"ok"}`))
 		if err != nil {
-			log.Printf("error writing response: %v", err)
+			log.Printf("error writing response: %v\n", err)
+			return
 		}
 	})
 
