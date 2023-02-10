@@ -1,5 +1,7 @@
 # kave
 
+[![Coverage Status](https://coveralls.io/repos/github/pdcalado/kave/badge.svg)](https://coveralls.io/github/pdcalado/kave)
+
 Kave provides:
 
 1. A server hosting a simple HTTP API for getting and setting key value pairs, backed by Redis.
@@ -16,7 +18,9 @@ sequenceDiagram
     Kave-Cli->>Kave-Server: GET/POST key values
     activate Kave-Server
     Kave-Server->>Redis: get/set Redis keys
+    activate Redis
     Redis->>Kave-Server: Redis response
+    deactivate Redis
     Kave-Server->>Kave-Cli: HTTP response
     deactivate Kave-Server
 ```
