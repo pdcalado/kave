@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io"
 	"log"
@@ -23,6 +24,7 @@ const (
 	defaultRouterBasePath = "/redis"
 	defaultRedisKeyPrefix = "kave:"
 	jwksUrlFormat         = "https://%s/.well-known/jwks.json"
+	defaultHealthPath     = "/health"
 )
 
 // Config holds application configuration
@@ -39,9 +41,18 @@ type Config struct {
 }
 
 func main() {
-	// Read configuration from a TOML file
+	var configFile string
+	flag.StringVar(&configFile, "c", "config.toml", "path to the config file")
+	flag.Parse()
+
+	run(configFile)
+}
+
+func run(configFile string) {
 	var config Config
-	if _, err := toml.DecodeFile("config.toml", &config); err != nil {
+
+	// Read configuration from a TOML file
+	if _, err := toml.DecodeFile(configFile, &config); err != nil {
 		panic(err)
 	}
 
@@ -99,7 +110,7 @@ func main() {
 	router.Use(middleware.Timeout(timeout))
 
 	// Add health route
-	router.Get("/health", func(w http.ResponseWriter, r *http.Request) {
+	router.Get(defaultHealthPath, func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		_, err := w.Write([]byte(`{"status":"ok"}`))
 		if err != nil {
@@ -162,12 +173,7 @@ func createAuthMiddleware(domain string) AuthMiddleware {
 
 func injectKeyInCtx(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Check if the key is valid
 		key := chi.URLParam(r, "key")
-		if key == "" {
-			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
 
 		newContext := writeKeyToCtx(r.Context(), key)
 
