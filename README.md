@@ -1,6 +1,9 @@
-# kave
-
 [![Coverage Status](https://coveralls.io/repos/github/pdcalado/kave/badge.svg)](https://coveralls.io/github/pdcalado/kave)
+[![Go Report Card](https://goreportcard.com/badge/github.com/pdcalado/kave)](https://goreportcard.com/report/github.com/pdcalado/kave)
+![ci workflow](https://github.com/pdcalado/kave/actions/workflows/ci.yml/badge.svg)
+
+
+# kave
 
 Kave provides:
 
@@ -43,6 +46,12 @@ redis_address = "localhost:6379"
 Run the server:
 
 ```console
+> kave-server
+```
+
+Make requests using kave-cli:
+
+```
 > # initialize profile first (creates a file at $HOME/.kave/config.toml)
 > # set --router_base_path if not using the default value in server
 > kave init --url localhost:8000 &
@@ -107,4 +116,12 @@ Start the server as described earlier, then export some variables to use the cli
 > # Use the cli
 > kave set --token ${TOKEN} foo "bar"
 > kave get --token foo
+```
+
+## Build
+
+Clone and run:
+
+```console
+> make build
 ```

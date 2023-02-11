@@ -5,7 +5,7 @@ LDFLAGS ?= "-X '$(VERSION_PACKAGE).Version=$(VERSION)' -s -w"
 
 fmt:
 	gofmt -w -s ./
-	goimports -w  -local github.com/pdcalado/kave ./
+	goimports -w -local github.com/pdcalado/kave ./
 
 lint:
 	golangci-lint run -v
@@ -14,12 +14,12 @@ clean:
 	rm -rf ./bin
 
 bin/kave:
-	go build -ldflags=$(LDFLAGS) -o bin/kave ./cmd/kave
+	go build -ldflags=$(LDFLAGS) -o bin/$* ./cmd/kave
 
-bin/server:
-	go build -ldflags=$(LDFLAGS) -o bin/server ./cmd/server
+bin/kave-server:
+	go build -ldflags=$(LDFLAGS) -o bin/$* ./cmd/server
 
-build: bin/kave bin/server
+build: bin/kave bin/kave-server
 
 mocks/%:
 	mkdir -p cmd/server/mocks
