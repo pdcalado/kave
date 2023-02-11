@@ -2,7 +2,6 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/pdcalado/kave)](https://goreportcard.com/report/github.com/pdcalado/kave)
 ![ci workflow](https://github.com/pdcalado/kave/actions/workflows/ci.yml/badge.svg)
 
-
 # kave
 
 Kave provides:

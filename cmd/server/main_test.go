@@ -2,9 +2,11 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
+	"strings"
 	"testing"
 	"time"
 
@@ -33,10 +35,15 @@ func TestMain(t *testing.T) {
 	configFile, err := os.CreateTemp(os.TempDir(), "config")
 	assert.NoError(t, err)
 
-	_, err = io.WriteString(configFile, `
-address = "localhost:8000"
-redis_address = "localhost:6379"
-	`)
+	redisHost, ok := os.LookupEnv("REDIS_HOST")
+	if !ok {
+		redisHost = "localhost"
+	}
+
+	_, err = io.WriteString(configFile, fmt.Sprintf(`
+address = "%s"
+redis_address = "%s:6379"
+	`, strings.TrimPrefix(testAddress, "http://"), redisHost))
 	assert.NoError(t, err)
 
 	go run(configFile.Name())
