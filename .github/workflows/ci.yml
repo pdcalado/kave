@@ -80,5 +80,5 @@ jobs:
         context: .
         push: ${{ startsWith(github.ref, 'refs/tags/') }}
         tags: |
-          $REGISTRY/${{ github.repository }}:${{ github.ref }}
+          ${{ env.REGISTRY}}/${{ github.repository }}:${{ github.ref }}
 
