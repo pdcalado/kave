@@ -3,6 +3,8 @@ VERSION_PACKAGE ?= github.com/pdcalado/kave/internal/version
 
 LDFLAGS ?= "-X '$(VERSION_PACKAGE).Version=$(VERSION)' -s -w"
 
+GOBUILD ?= GCO_ENABLED=0 go build -ldflags=$(LDFLAGS)
+
 fmt:
 	gofmt -w -s ./
 	goimports -w -local github.com/pdcalado/kave ./
@@ -14,10 +16,10 @@ clean:
 	rm -rf ./bin
 
 bin/kave:
-	go build -ldflags=$(LDFLAGS) -o bin/$* ./cmd/kave
+	$(GOBUILD) -o $@ ./cmd/kave
 
 bin/kave-server:
-	go build -ldflags=$(LDFLAGS) -o bin/$* ./cmd/server
+	$(GOBUILD) -o $@ ./cmd/server
 
 build: bin/kave bin/kave-server
 
