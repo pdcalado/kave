@@ -16,6 +16,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/pdcalado/kave/internal/version"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -43,7 +44,16 @@ type Config struct {
 func main() {
 	var configFile string
 	flag.StringVar(&configFile, "c", "config.toml", "path to the config file")
+
+	var printVersion bool
+	flag.BoolVar(&printVersion, "version", false, "print version and exit")
+
 	flag.Parse()
+
+	if printVersion {
+		fmt.Fprintf(os.Stderr, "%s %s\n", os.Args[0], version.Version)
+		return
+	}
 
 	run(configFile)
 }
