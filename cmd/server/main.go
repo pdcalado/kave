@@ -35,6 +35,7 @@ type Config struct {
 	RouterBasePath string  `toml:"router_base_path"`
 	RedisKeyPrefix *string `toml:"redis_key_prefix"`
 	TimeoutMs      int     `toml:"timeout_ms"`
+	RedisUsername  string  `toml:"redis_username"`
 	Auth           struct {
 		Enabled bool   `toml:"enabled"`
 		Domain  string `toml:"domain"`
@@ -93,6 +94,7 @@ func run(configFile string) {
 	// Connect to Redis
 	client, err := NewRedisClient(ctx, &redis.Options{
 		Addr:     config.RedisAddress,
+		Username: config.RedisUsername,
 		Password: redisPassword,
 	})
 	if err != nil {

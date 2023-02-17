@@ -36,11 +36,19 @@ address = "localhost:8000"
 redis_address = "localhost:6379"
 
 # defaults
+## Base path for routing the requests
 # router_base_path = "/redis"
+## Prefix on all keys for Redis requests
 # redis_key_prefix = "kave:"
+## HTTP incomding requests timeout in milliseconds
+# timeout_ms = 2000
+## Redis username
+# redis_username = ""
+## Redis password must be set as env variable REDIS_PASSWORD
 ```
 
-(auth is also disable by default, check [Auth](#using-auth) for details)
+(auth is also disabled by default, check [Auth](#using-auth) for details)
+
 
 Run the server:
 
