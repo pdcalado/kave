@@ -91,7 +91,7 @@ jobs:
       run: make build
 
     - name: Create release archive
-      run: tar -C ./public -czf ./release.tar.gz .
+      run: tar -C ./bin -czf ./release.tar.gz .
 
     - name: Create a GitHub release
       uses: ncipollo/release-action@v1
