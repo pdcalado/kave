@@ -3,7 +3,7 @@ VERSION_PACKAGE ?= github.com/pdcalado/kave/internal/version
 
 LDFLAGS ?= "-X '$(VERSION_PACKAGE).Version=$(VERSION)' -s -w"
 
-GOBUILD ?= GCO_ENABLED=0 go build -ldflags=$(LDFLAGS)
+GOBUILD ?= GCO_ENABLED=0 go build -ldflags=$(LDFLAGS) -tags osusergo,netgo
 
 fmt:
 	gofmt -w -s ./
