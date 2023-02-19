@@ -20,7 +20,7 @@ func createRequestUrl(cmd *cobra.Command, key string) (*url.URL, error) {
 	urlStr := cmd.Flag(kaveFlagUrl).Value.String()
 	basePath := cmd.Flag(kaveFlagRouterBasePath).Value.String()
 
-	if !strings.HasPrefix(urlStr, "http") || !strings.HasPrefix(urlStr, "https") {
+	if !strings.HasPrefix(urlStr, "http") && !strings.HasPrefix(urlStr, "https") {
 		urlStr = "http://" + urlStr
 	}
 
@@ -56,7 +56,15 @@ func obtainRefreshToken(cmd *cobra.Command) (string, error) {
 	return token, writeTokenToCache(token)
 }
 
+func isAuthEnabled(cmd *cobra.Command) bool {
+	return cmd.Flag(kaveFlagAuth0ClientID).Value.String() != ""
+}
+
 func setAuthorizationHeader(cmd *cobra.Command, req *http.Request) {
+	if !isAuthEnabled(cmd) {
+		return
+	}
+
 	token, err := obtainRefreshToken(cmd)
 	if err != nil {
 		panic("failed to obtain token: " + err.Error())

@@ -58,7 +58,6 @@ func Execute() {
 }
 
 type profileAuth struct {
-	Enabled  bool   `toml:"enabled"`
 	Domain   string `toml:"domain"`
 	ClientID string `toml:"client_id"`
 	Audience string `toml:"audience"`
@@ -175,7 +174,6 @@ var initCmd = &cobra.Command{
 			Url:            cmd.Flags().Lookup(kaveFlagUrl).Value.String(),
 			RouterBasePath: cmd.Flags().Lookup(kaveFlagRouterBasePath).Value.String(),
 			Auth: profileAuth{
-				Enabled:  auth0ClientID != "",
 				Audience: auth0Audience,
 				Domain:   auth0Domain,
 				ClientID: auth0ClientID,
