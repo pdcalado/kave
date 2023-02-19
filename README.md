@@ -58,7 +58,7 @@ foo@bar:~$ kave-server
 
 Make requests using kave-cli:
 
-```
+```console
 foo@bar:~$ # initialize profile first (creates a file at ${USER_CONFIG_DIR}/kave/config.toml)
 foo@bar:~$ # set --router_base_path if not using the default value in server
 foo@bar:~$ kave init --url localhost:8000
@@ -90,13 +90,13 @@ Here are some scope examples:
 
 Any regexp pattern as a scope is matched against the operation (get/set) on the key. `read:` prefix allows redis get and `write:` prefix allows redis set.
 
-**To set up auth** you can run init with:
+**To set up auth in the cli** you can run init with:
 
 ```console
 foo@bar:~$ kave init --url "http://your-kave-server-url.com" --auth0_audience "http://youraudience.com" --auth0_domain "your-domain.eu.auth0.com" --auth0_client_id "qwertyasdfghzxcvb123456" --auth0_client_secret "secretsequencefromauth0"
 ```
 
-**Or** set it up manuall in `config.toml` and `credentials.toml`:
+**To set up auth in the server** change `config.toml` to:
 
 ```toml
 ## config.toml
@@ -111,14 +111,6 @@ redis_address = "localhost:6379"
 [auth]
 enabled = true
 domain = "your-domain.eu.auth0.com"
-audience = "http://youraudience.com"
-client_id = "qwertyasdfghzxcvb123456"
-```
-
-```toml
-## credentials.toml
-
-secret = "secretsequencefromauth0"
 ```
 
 Start the server as described earlier, then use the cli:
