@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"os"
+
 	"github.com/spf13/cobra"
 )
 
@@ -11,6 +13,8 @@ var tokenCmd = &cobra.Command{
 	Short: "Obtain a token from Auth0",
 	Args:  cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
+
+		cmd.SetOut(os.Stdout)
 
 		token, ok := readTokenFromCache()
 		if ok {
